@@ -71,6 +71,8 @@ html[data-theme=black] body:before{background:rgba(0,0,0,.92)}html[data-theme=bl
 .hbtns{display:flex;align-items:center;gap:8px}
 .tbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--gold2);font:inherit;font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
 .toast{position:fixed;top:78px;left:50%;transform:translateX(-50%);background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;z-index:9;opacity:0;pointer-events:none;transition:opacity .25s}.toast.on{opacity:1}
+.rh .ar{display:flex;align-items:center;gap:6px;margin-right:auto;margin-left:10px}.rh .ar button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--gold2);padding:0;display:grid;place-items:center;cursor:pointer}.rh .ar button:disabled{opacity:.3;cursor:default}.rh .ar svg{width:16px;height:16px}
+.rh{gap:8px}.rh h3{margin-left:auto}
 </style></head><body>
 <header><div class="wrap"><a class="brand" href="#"><span class="mark"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj4KICA8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExMCIgZmlsbD0iIzBiMTQyNCIvPgogIDxyZWN0IHg9IjQ0IiB5PSI0NCIgd2lkdGg9IjQyNCIgaGVpZ2h0PSI0MjQiIHJ4PSI5MCIgZmlsbD0iIzE0MjIzOCIgc3Ryb2tlPSIjZDliNjZmIiBzdHJva2Utd2lkdGg9IjEwIi8+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE2LCAxMTYpIHNjYWxlKDExLjYpIiBmaWxsPSJub25lIiBzdHJva2U9IiNkOWI2NmYiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogICAgPHBhdGggZD0iTTQgNS41QTIuNSAyLjUgMCAwIDEgNi41IDNIMjB2MTZINi41QTIuNSAyLjUgMCAwIDAgNCAyMS41ek00IDUuNXYxNk04IDdoOE04IDExaDciLz4KICA8L2c+Cjwvc3ZnPgo=" alt=""></span><span><b>مكتبتنا المسموعة</b><small>صوت المعرفة… أقرب إليك</small></span></a><div class="hbtns"><button type="button" class="tbtn" id="tbtn" aria-label="تغيير المظهر" title="تغيير المظهر"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button><a class="btn sm" href="#download">تحميل التطبيق</a></div></div></header><div class="toast" id="toast"></div>
 <main class="wrap">
@@ -102,8 +104,15 @@ function mk(w){var d=el('div','bk');if(w.i){var im=el('img');im.src=IM[w.i];im.a
 d.appendChild(el('b','',w.t));d.appendChild(el('small','',(w.a?w.a+' · ':'')+ar(w.n)+(w.n===1?' جزء':' أجزاء')));return d}
 var LIM=8;
 function shelves(){var s=document.getElementById('shelves');s.innerHTML='';CATS.forEach(function(c){var list=W.filter(function(w){return w.c===c});if(!list.length)return;
-var h=el('div','rh');var t=el('h3','',c);t.appendChild(el('small','',ar(list.length)+(list.length===1?' عمل':' أعمال')));h.appendChild(t);var b=el('button','','عرض الكل ‹');b.type='button';b.onclick=function(){pick(c)};h.appendChild(b);s.appendChild(h);
-var r=el('div','row');list.slice(0,LIM).forEach(function(w){r.appendChild(mk(w))});
+var h=el('div','rh');var t=el('h3','',c);t.appendChild(el('small','',ar(list.length)+(list.length===1?' عمل':' أعمال')));h.appendChild(t);var b=el('button','','عرض الكل ‹');b.type='button';b.onclick=function(){pick(c)};
+var r=el('div','row');var ab=el('div','ar');var SV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M%s"/></svg>';
+var bR=el('button');bR.type='button';bR.setAttribute('aria-label','السابق');bR.innerHTML=SV.replace('%s','9 6l6 6-6 6');
+var bL=el('button');bL.type='button';bL.setAttribute('aria-label','التالي');bL.innerHTML=SV.replace('%s','15 6l-6 6 6 6');
+function st(){var m=r.scrollWidth-r.clientWidth,x=Math.abs(r.scrollLeft);bR.disabled=x<4;bL.disabled=x>m-4;ab.style.display=m<8?'none':'flex'}
+bR.onclick=function(){r.scrollBy({left:r.clientWidth*.8,behavior:'smooth'})};bL.onclick=function(){r.scrollBy({left:-r.clientWidth*.8,behavior:'smooth'})};
+r.addEventListener('scroll',st);window.addEventListener('resize',st);setTimeout(st,60);setTimeout(st,600);
+ab.appendChild(bR);ab.appendChild(bL);h.appendChild(ab);h.appendChild(b);s.appendChild(h);
+list.slice(0,LIM).forEach(function(w){r.appendChild(mk(w))});
 if(list.length>LIM){var m=el('button','more');m.type='button';m.appendChild(el('i','','‹'));m.appendChild(el('span','','عرض الكل'));m.onclick=function(){pick(c)};r.appendChild(m)}
 s.appendChild(r)})}
 function home(){cur='';document.getElementById('shelves').classList.remove('hid');document.getElementById('detail').classList.add('hid');document.getElementById('shelfTitle').textContent='الأعمال';document.getElementById('shelfSub').textContent='اسحب جانبًا لترى المزيد في كل تصنيف.'}
