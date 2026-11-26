@@ -139,4 +139,5 @@ function apply(n,say){if(n==="navy")h.removeAttribute("data-theme");else h.setAt
 b.onclick=function(){apply(O[(O.indexOf(cur())+1)%3],true)};apply(cur(),false)})();</script><script>(function(){var tr=document.getElementById("gtrack"),R=document.getElementById("gR"),L=document.getElementById("gL"),cp=document.getElementById("gcap"),ss=tr.querySelectorAll(".gs");
 function idx(){return Math.max(0,Math.min(ss.length-1,Math.round(Math.abs(tr.scrollLeft)/tr.clientWidth)))}
 function st(){var i=idx();R.disabled=i<=0;L.disabled=i>=ss.length-1;cp.textContent=ss[i].getAttribute("data-cap")+" ("+(i+1)+"/"+ss.length+")";}
-R.onclick=function(){tr.s
+R.onclick=function(){tr.scrollBy({left:tr.clientWidth,behavior:"smooth"})};L.onclick=function(){tr.scrollBy({left:-tr.clientWidth,behavior:"smooth"})};
+tr.addEventListener("scroll",st);window.addEventListener("resize",st);st()})();</script></body></html>
