@@ -533,7 +533,7 @@ au.onended=function(){au.currentTime=0;setp(0)};
 new MutationObserver(function(){if(!ss[3].classList.contains("on")&&!au.paused){au.pause();au.currentTime=0;setp(0)}}).observe(ss[3],{attributes:true,attributeFilter:["class"]})}if(document.readyState==="complete")setTimeout(sfGo,80);else window.addEventListener("load",function(){setTimeout(sfGo,80)});</script>
 <script>(function(){var ls=document.getElementById("lsub");if(!ls||!window.EW)return;
 var ORDS=["عقيدة","فقه","أصول الفقه","حديث وعلومه","تفسير","رقائق وتزكية","سيرة وتراجم","طلب العلم","أسئلة وفتاوى","خطب الجمعة","غير مصنّف"];
-var ALL=[];W.forEach(function(w){if(isBook(w))return;var s=window.shOf&&shOf(w);ALL.push({w:w,u:w.c,k:s?s.name:""})});
+var UN="غير مصنّف";var ALL=[];W.forEach(function(w){if(isBook(w))return;var s=window.shOf&&shOf(w);ALL.push({w:w,u:w.c,k:s?s.name:""})});
 EW.forEach(function(w){ALL.push({w:w,u:w.u,k:w.k||""})});
 var SKN=[];ALL.forEach(function(x){if(x.k&&SKN.indexOf(x.k)<0)SKN.push(x.k)});
 function card(x,i){var w=x.w,d=document.createElement("div");d.className="cv go";d.setAttribute("role","link");d.tabIndex=0;d.title=w.t;
@@ -544,12 +544,13 @@ function row(txt,sk){var r=document.createElement("div");r.className="ls-sh";var
 function grid(arr){var g=document.createElement("div");g.className="ls-g";arr.forEach(function(x,i){g.appendChild(card(x,i))});return g}
 function tabs(cur){var t=document.createElement("div");t.style.cssText="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px";
 function mk(lbl,v){var b=document.createElement("button");b.type="button";b.textContent=lbl;var on=cur===v;b.style.cssText="font:inherit;font-size:15px;font-weight:700;padding:8px 14px;border-radius:999px;cursor:pointer;border:1px solid var(--gold2);color:"+(on?"#1a1206":"var(--gold2)")+";background:"+(on?"var(--gold2)":"transparent");b.onclick=function(){render(v);var e=document.getElementById("lectures");if(e)e.scrollIntoView()};t.appendChild(b)}
-mk("حسب الموضوع","subj");SKN.forEach(function(n){mk(n,"s:"+n)});mk("مواد بلا شيخ محدد","none");return t}
+mk("حسب الموضوع","subj");SKN.forEach(function(n){mk(n,"s:"+n)});mk("مواد بلا شيخ محدد","none");mk("غير مصنّف ("+ALL.filter(function(x){return x.u===UN}).length+")","un");return t}
 function render(v){ls.innerHTML="";ls.appendChild(tabs(v));
-if(v==="subj"){ORDS.forEach(function(u){var arr=ALL.filter(function(x){return x.u===u});if(!arr.length)return;var sec=document.createElement("div");sec.className="ls-sec";var h=document.createElement("h3");h.textContent=u;sec.appendChild(h);
+if(v==="subj"){ORDS.forEach(function(u){if(u===UN)return;var arr=ALL.filter(function(x){return x.u===u});if(!arr.length)return;var sec=document.createElement("div");sec.className="ls-sec";var h=document.createElement("h3");h.textContent=u;sec.appendChild(h);
 SKN.forEach(function(n){var a2=arr.filter(function(x){return x.k===n});if(a2.length){sec.appendChild(row(n,n));sec.appendChild(grid(a2))}});
 var no=arr.filter(function(x){return !x.k});if(no.length){if(arr.length>no.length)sec.appendChild(row("مواد بلا شيخ محدد"));sec.appendChild(grid(no))}ls.appendChild(sec)})}
-else if(v==="none"){var sec0=document.createElement("div");sec0.className="ls-sec";var h0=document.createElement("h3");h0.textContent="مواد بلا شيخ محدد";sec0.appendChild(h0);ORDS.forEach(function(u){var a3=ALL.filter(function(x){return !x.k&&x.u===u});if(a3.length){sec0.appendChild(row(u));sec0.appendChild(grid(a3))}});ls.appendChild(sec0)}
+else if(v==="un"){var sec2=document.createElement("div");sec2.className="ls-sec";var h2=document.createElement("h3");h2.textContent="غير مصنّف: مواد تحتاج فرزاً وتسمية";sec2.appendChild(h2);sec2.appendChild(grid(ALL.filter(function(x){return x.u===UN})));ls.appendChild(sec2)}
+else if(v==="none"){var sec0=document.createElement("div");sec0.className="ls-sec";var h0=document.createElement("h3");h0.textContent="مواد بلا شيخ محدد";sec0.appendChild(h0);ORDS.forEach(function(u){if(u===UN)return;var a3=ALL.filter(function(x){return !x.k&&x.u===u});if(a3.length){sec0.appendChild(row(u));sec0.appendChild(grid(a3))}});ls.appendChild(sec0)}
 else{var n0=v.slice(2);var sec1=document.createElement("div");sec1.className="ls-sec";var h1=document.createElement("h3");h1.textContent=n0;sec1.appendChild(h1);ORDS.forEach(function(u){var a4=ALL.filter(function(x){return x.k===n0&&x.u===u});if(a4.length){sec1.appendChild(row(u));sec1.appendChild(grid(a4))}});ls.appendChild(sec1)}}
 render("subj")})()</script>
 </body></html>
