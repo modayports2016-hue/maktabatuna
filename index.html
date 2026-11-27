@@ -420,7 +420,7 @@ function base(u){return "https://archive.org/download/"+u}
 window.hasPlay=function(w){return !!(CH&&CH[w.t])};
 window.openPlay=function(w){location.hash="#play/"+(w.e?"e"+EW.indexOf(w):W.indexOf(w))};
 function cover(w){var c=$("plc");c.innerHTML="";var sk=window.shOf&&shOf(w);if(sk&&sk.photo){var im0=document.createElement("img");im0.alt="";im0.src=sk.photo;c.appendChild(im0)}else if(w.i){var im=document.createElement("img");im.alt="";im.src=IM[w.i];c.appendChild(im)}else{var p=document.createElement("div");p.className="ph k"+(CATS.indexOf(w.c)%9);p.textContent=w.t;c.appendChild(p)}}
-function load(i,go){idx=i;var ch=CHL[i];$("pnow").textContent=ch[0];$("pdl").href=base(ch[1]);[].forEach.call($("plist").children,function(li,k){li.className=k===i?"on":""});
+function load(i,go){idx=i;var ch=CHL[i];$("pnow").textContent=ch[0];$("pdl").href=base(ch[1]);[].forEach.call($("plist").querySelectorAll("li"),function(li,k){li.classList.toggle("on",k===i)});
 var med=$("pmed");med.innerHTML="";
 if(ch[3]){au.pause();au.removeAttribute("src");$("pctl").style.display="none";var v=document.createElement("video");v.id="pvid";v.controls=true;v.playsInline=true;v.preload="none";v.src=base(ch[1]);v.onended=function(){if(idx<CHL.length-1)load(idx+1,true)};med.appendChild(v);if(go)v.play().catch(function(){})}
 else{$("pctl").style.display="";au.src=base(ch[1]);au.playbackRate=spd[si];$("pseek").value=0;$("pcur").textContent="0:00";$("pdur").textContent=ch[2]||"0:00";if(go)au.play().catch(function(){})}
